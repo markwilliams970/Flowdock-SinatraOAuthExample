@@ -12,10 +12,10 @@ RestClient.log = $stdout
 # The SERVER_URL must match the one specifed in Flowdock
 CLIENT_ID = ENV["CLIENT_ID"]
 CLIENT_SECRET = ENV["CLIENT_SECRET"]
-SERVER_URL = ENV["SERVER_URL"] || "https://api.flowdock.com"
+SERVER_URL = ENV["SERVER_URL"] || "http://localhost:4567"
 
 # Flowdock URLs
-FD_URL = SERVER_URL
+FD_URL = "https://api.flowdock.com"
 FD_TOKEN_URL = "#{FD_URL}/oauth/token"
 FD_ACCESS_URL = "#{FD_URL}/oauth/authorize"
 
