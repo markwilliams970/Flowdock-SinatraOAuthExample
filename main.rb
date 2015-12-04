@@ -20,7 +20,7 @@ FD_TOKEN_URL = "#{FD_URL}/oauth/token"
 FD_ACCESS_URL = "#{FD_URL}/oauth/authorize"
 
 # Re-direct URL
-APP_REDIRECT_URL = "http://localhost:4567/flowdock-oauth-redirect"
+APP_REDIRECT_URL = "#{SERVER_URL}/flowdock-oauth-redirect"
 
 enable :sessions
 
@@ -48,11 +48,11 @@ get '/flowdock-oauth-redirect' do
 
 	# Now exchance access code for a Bearer token
 	new_params = {
-		:code => params[:code], # the authentication token supplied by rally in the redirect
+		:code => params[:code], # the authentication token supplied by Flowdock in the redirect
 		:redirect_uri => APP_REDIRECT_URL, # must match the redirect specified earlier
 		:grant_type => "authorization_code", # we are supplying an authorization token to exchange for an access token
-		:client_id => CLIENT_ID, # The Client ID you got from creating a Rally OAuth Client
-		:client_secret => CLIENT_SECRET # The Client Secret you got from creating a Rally OAuth Client
+		:client_id => CLIENT_ID, # The Client ID you got from creating a Flowdock OAuth Client
+		:client_secret => CLIENT_SECRET # The Client Secret you got from creating a Flowdock OAuth Client
 
 	}
 
