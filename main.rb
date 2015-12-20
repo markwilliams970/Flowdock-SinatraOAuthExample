@@ -19,6 +19,10 @@ FD_URL = "https://api.flowdock.com"
 FD_TOKEN_URL = "#{FD_URL}/oauth/token"
 FD_ACCESS_URL = "#{FD_URL}/oauth/authorize"
 
+# Flowdock Username and Password - only needed if testing OAuth 2.0 Password flow
+FD_USERNAME=ENV["FD_USERNAME"]
+FD_PASSWORD=ENV["FD_PASSWORD"]
+
 # Re-direct URL
 APP_REDIRECT_URL = "#{SERVER_URL}/flowdock-oauth-redirect"
 
@@ -38,6 +42,31 @@ get '/login' do
     redirect to(uri.to_s)
 end
 
+get '/password-flow' do
+    uri = URI(FD_TOKEN_URL)
+    # Now exchance access code for a Bearer token
+    new_params = {
+        :client_id => CLIENT_ID, # The Client ID you got from creating a Flowdock OAuth Client
+        :client_secret => CLIENT_SECRET, # The Client Secret you got from creating a Flowdock OAuth Client
+        :grant_type => "password", # we are supplying an authorization token to exchange for an access token
+        :username => FD_USERNAME,
+        :password => FD_PASSWORD,
+        :scope => "flow"
+    }
+
+    # post to FD_TOKEN_URL, the body is form-urlencoded
+    # the client id and secret can also be sent as basic-auth
+    begin
+        access_resp = RestClient.post FD_TOKEN_URL, URI.encode_www_form(new_params), :content_type => "application/x-www-form-urlencoded", :accept => :json
+    rescue Exception => e
+        return "Failed to get Token #{e}"
+    end
+
+    session[:auth] = JSON.load(access_resp)["access_token"]
+    session[:state] = nil
+
+    redirect to('/')
+end
 
 get '/flowdock-oauth-redirect' do
     if params[:state] != session[:state]
