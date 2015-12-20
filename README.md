@@ -14,3 +14,9 @@ We use shell variables to set
 To start the app
 
 `foreman start`
+
+If wanting to test using the OAuth 2.0 `password` wofklow (as opposeed to the `authorization_code` flow), then please also define these variables:
+
+`export FD_USERNAME="user@company.com"`
+
+`export FD_PASSWORD="t0pS3cr3t"`
