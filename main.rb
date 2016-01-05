@@ -51,7 +51,7 @@ get '/password-flow' do
         :grant_type => "password", # we are supplying an authorization token to exchange for an access token
         :username => FD_USERNAME,
         :password => FD_PASSWORD,
-        :scope => "flow"
+        :scope => "integration"
     }
 
     # post to FD_TOKEN_URL, the body is form-urlencoded
